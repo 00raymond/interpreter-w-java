@@ -9,6 +9,8 @@ expression = term {(“+” | “-”) term}.
 computation = “computation”
 { “var” identifier “<-” expression “;” }
 expression { “;” expression } “."
-
-assumes no syntax error in infile
+```
+- assumes no syntax error in infile
+- assumes no divide by 0 error
+- no var name matches reserved word of grammar
 
