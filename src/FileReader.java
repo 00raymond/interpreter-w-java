@@ -30,7 +30,7 @@ public class FileReader {
     }
 
     public static void isEOF() {
-
+        System.out.println("End of file reached.");
     }
 
     public static void Error(Exception e) {
