@@ -2,14 +2,15 @@
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
+        String fn;
 
-//        if (args.length == 0) {
-//            System.out.println("No file name provided.");
-//            return;
-//     }
+        if (args.length == 0) {
+            System.out.println("No file name provided. Defaulting to Test.txt");
+            fn = "Test.txt";
+        } else {
+            fn = args[0];
+        }
 
-//        String fn = args[0];
-        String fn = "Test.txt";
         new FileReader(fn);
 
         // tokenizer tests
@@ -26,8 +27,6 @@ public class Main {
             } catch (Exception e) {
                 FileReader.Error(e);
             }
-
         }
-
     }
 }

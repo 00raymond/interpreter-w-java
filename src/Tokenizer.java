@@ -15,7 +15,7 @@ public class Tokenizer {
 
     public static int getNext() {
 
-        if (ch == ' ') {
+        if (ch == ' ' || ch == '\n' || ch == '\t') {
             next();
             return getNext();
         }
