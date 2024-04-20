@@ -1,0 +1,55 @@
+WHOLE PROCESS SUMMARY
+
+example program:
+let a <- InputNum;
+let b <- a;
+let c <- b;
+let d<- b + c;
+let e <- a + b;
+if a < 0 then:
+    let d <- d + e;
+    let a <- d;
+else
+    let d <- e;
+f;:
+outputNum(d);
+outputNum(a);
+
+0: const 0               {}
+1: read   # input num        {0}
+2: add (1)(1)  # d <- b + c                                 {1,0}
+: add (1)(1) <do not need>, since duplicate  # e <- a + b
+3: cmp (1)(0)  # a < 0                                      {1,2,0}
+4: loge
+ | then
+5: add (2)(2)     {2}
+6: bra(8)
+ | else
+ 7: # dont do anything, since d already had value 2. no update necessary
+
+8: phi(5)(2)  # represents d , if it takes then path then its  ssa 5 otherwise its ssa 2      {5,2,1}
+9: phi(5)(1) # represents a       {8,5,1}
+10: write(9)            {8,9} <=== CANNOT use the same register for them
+11: write(8)          {8}
+
+why does
+
+live set,
+
+super nodes
+r2
+( 852 ) ==== (3) r3
+   |      /
+ (9 1) /
+  r1
+ 1: Read R1
+ 2: add R1 R1 -> R2
+ 3: cmp R1 = 0 -> R3 # value of comparison in register 3
+ 4: bge R3, instr 10
+ 5: add R2 R2 -> R2
+  move R2 -> 1
+
+ 8: phi (5)(2) , since all are R2, we dont need phi thus nothing
+ 9: R1 phi (R2)(R1)
+ 10: write R1
+ 11: write R2

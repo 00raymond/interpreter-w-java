@@ -1,0 +1,37 @@
+generating interference graph for loops:
+- start empty live set, work UP in the program
+
+______________
+     | x and a must be alive prior to phi function, - {i,j}, + {x,a}
+---------------
+i : phi(x,y) BB1
+j : phi(a,b)
+live2 {
+live 1 {
+live 3 + live 1
+ |          \
+ |           \
+ |   follow   \
+ |             \
+ |
+ |
+--------
+       |
+-------- <= live 2
+
+3  nested loops for implementation
+- 2 iterations, 1st sweeps up the live values, 2nd makes sure they all interfere
+-
+
+removal of phi:
+
+for all phi instructions: x = phi(y.. y2...)
+ cluster = {x}
+ for all y_i that are not constant do
+  cluster = cluster U {y_i}
+    if yi does not interfere with cluster then
+        replace x with y_i
+        remove phi instruction
+        breakadd yi and its edges to cluster, remove yi from graph
+replace x by cluster
+

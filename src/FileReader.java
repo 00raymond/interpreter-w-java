@@ -34,7 +34,7 @@ public class FileReader {
     }
 
     public static void Error(Exception e) {
-        System.out.println("Error found: " + e);
+        System.out.println(STR."Error found: \{e}");
     }
 
 }

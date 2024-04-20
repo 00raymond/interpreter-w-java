@@ -75,7 +75,6 @@ public class Parser {
         return result;
     }
 
-
     public static void computation() throws Exception {
 
         next();
