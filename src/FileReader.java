@@ -7,7 +7,7 @@ public class FileReader {
     private static int currPos = 0;
 
     public FileReader(String fn) {
-        file = new File(STR."src/\{fn}");
+        file = new File("src/" + fn);
         try {
             fileContent = Files.readString(file.toPath());
         } catch (Exception e) {
@@ -30,11 +30,10 @@ public class FileReader {
     }
 
     public static void isEOF() {
-        System.out.println("End of file reached.");
     }
 
     public static void Error(Exception e) {
-        System.out.println("Error found: " + e);
+        System.out.println("Error found here: " + e.getMessage());
     }
 
 }

@@ -75,7 +75,6 @@ public class Parser {
         return result;
     }
 
-
     public static void computation() throws Exception {
 
         next();
@@ -114,7 +113,7 @@ public class Parser {
     }
 
     public static void syntaxError() throws Exception {
-        throw new Exception(STR."Syntax error at character: \{tkStr}");
+        throw new Exception("Syntax error at character:" + tkStr);
     }
 
     public static boolean onlyDigits(String str) {

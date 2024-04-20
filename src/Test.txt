@@ -1,7 +1,4 @@
 computation var i <- 2 * 3;
 var abracadabra <- 7;
 (((abracadabra * i)));
-i - 5 - 1;
-var asdf <- 55;
-var jkl <- 2;
-asdf + jkl.
+i - 5 - 1.
