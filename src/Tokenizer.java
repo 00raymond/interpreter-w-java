@@ -9,6 +9,13 @@ public class Tokenizer {
     private static int number;
     private static int identifier;
     private static boolean EOF = false;
+
+    public static void printIdTable() {
+        for (int i = 0; i < idTable.size(); i++) {
+            System.out.println(i + ": " + idTable.elementAt(i));
+        }
+    }
+
     public static void next() {
         ch = FileReader.getNext();
     }

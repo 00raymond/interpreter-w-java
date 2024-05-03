@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import result.Result;
 
 public class Parser {
     private static int currTk;
@@ -10,26 +11,30 @@ public class Parser {
         tkStr = Tokenizer.Id2String(currTk);
     }
 
-    public static int number() {
-        return Tokenizer.getNumber();
+    public static Result number() {
+
+        return new Result(0, (Tokenizer.getNumber()));
     }
 
-    public static int identifier() {
-        return varTable.get(tkStr);
+    public static Result identifier() {
+
+        // value will be the index of the identifier in the varTable
+        return new Result(1, varTable.get(tkStr));
     }
 
-    public static int factor() throws Exception {
-        int result;
+    public static Result factor() throws Exception {
+
+        Result x;
 
         if (varTable.containsKey(tkStr)) { // need to check if the tkStr exists in the varTable. then use the identifiers numerical value
-            result = identifier();
+            x = identifier();
             next();
         } else if (onlyDigits(tkStr)) {
-            result = number();
+            x = number();
             next();
         } else if (tkStr.equals("(")) {
             next();
-            result = expression();
+            x = expression();
 
             if (!tkStr.equals(")")) {
                 syntaxError();
@@ -38,41 +43,42 @@ public class Parser {
             }
         } else {
             syntaxError();
-            return 0;
+            return new Result(4);
         }
-        return result;
+        return x;
     }
 
-    public static int term() throws Exception {
-        int result;
-        result = factor();
+    public static Result term() throws Exception {
+        Result x, y;
+
+        x = factor();
 
         while (tkStr.equals("*") | tkStr.equals("/")) {
-            if (tkStr.equals("*")) {
-                next();
-                result *= factor();
-            } else {
-                next();
-                result /= factor();
-            }
+
+            System.out.println("this: " + tkStr);
+            int op = Tokenizer.String2Id(tkStr);
+
+            next();
+            y = factor();
+            x = Register.Compute(op, x, y);
         }
-        return result;
+        return x;
     }
 
-    public static int expression() throws Exception {
-        int result;
-        result = term();
+    public static Result expression() throws Exception {
+
+        Result x, y;
+        x = term();
+
         while (tkStr.equals("+") || tkStr.equals("-")) {
-            if (tkStr.equals("+")) {
-                next();
-                result += term();
-            }
-            else {
-                next();
-                result -= term();
-            }
+
+            int op = Tokenizer.String2Id(tkStr);
+
+            next();
+            y = term();
+            x = Register.Compute(op, x, y);
         }
-        return result;
+        return x;
     }
 
     public static void computation() throws Exception {
@@ -87,10 +93,10 @@ public class Parser {
             next();
             // now we will be in expression. maybe tokenize expression so we can just run the expression using existing code?
             // or just run expression on the current token until it reaches ;, since when there is var there will have to be ; at end
-            int result = expression();
+            Result x = expression();
 
             // store result in varName
-            varTable.put(varName, result);
+            varTable.put(varName, x.getValue());
 
             // if getNext isnt . , then run computation again
             if (!tkStr.equals(".")) {
@@ -99,8 +105,8 @@ public class Parser {
         } else {
             // must be an expression
             // we print these out
-            int result = expression();
-            System.out.println(result);
+            Result x = expression();
+            System.out.println(x.getValue());
 
             if (Tokenizer.isEOF()) {
                 return;

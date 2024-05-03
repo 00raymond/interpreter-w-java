@@ -13,12 +13,6 @@ public class Main {
 
         new FileReader(fn);
 
-        // tokenizer tests
-//        for (int i = 0; i < 8; i++) {
-//            int id = Tokenizer.getNext();
-//            System.out.println(Tokenizer.Id2String(id));
-//        }
-
         if (!Tokenizer.Id2String(Tokenizer.getNext()).equals("computation")) {
             System.out.println("Error: Program does not begin with computation.");
         } else {
