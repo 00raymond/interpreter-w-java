@@ -1,6 +1,9 @@
 import result.Result;
 
 public class Register {
+
+    // R29 and 30 are used as register stack pointers
+
     public static Result Compute(int operator, Result x, Result y) {
         String op = Tokenizer.Id2String(operator);
 
