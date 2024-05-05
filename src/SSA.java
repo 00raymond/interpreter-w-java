@@ -78,11 +78,69 @@ public class SSA {
 
                 instruct = sp + ": " + op + " (" + xInstructNo + ") (" + yInstructNo + ")";
 
+            } else if (ykind == 0) {
+                // y is a constant, x is a var
+                boolean found = false;
+                int instructNo = -1;
+                for (Integer constsValue : constsValues) {
+                    if (constsValue.equals(y.getValue())) {
+                        found = true;
+                        instructNo = constsMap.get(constsValues.indexOf(constsValue));
+                    }
+                }
+                if (!found) {
+                    instructNo = consts.addConstValue(y.getValue());
+                    consts.addInstruction(instructNo + ": const " + y.getValue());
+                    sp++;
+                }
+                // handle x var
+                // extract x from symbol table
+                int tempBbp = bbp;
+                int xInstructNo = -1;
+                do {
+                    BasicBlock tempBb = basicBlocks.get(tempBbp);
+                    System.out.println("searching through: " + tempBb.getVarTable());
+                    System.out.println(Tokenizer.Id2String(x.getValue()));
+                    for (String symbol : tempBb.getVarTable().keySet()) {
+                        if (symbol.equals(Tokenizer.Id2String(x.getValue()))) {
+                            xInstructNo = tempBb.getVarTable().get(symbol);
+                        }
+                    }
+                    tempBbp--;
+                } while (tempBbp > 1);
+                instruct = sp + ": " + op + " (" + xInstructNo + ") (" + instructNo + ")";
+
+            } else {
+                // x is a constant, y is a var
+                boolean found = false;
+                int instructNo = -1;
+                for (Integer constsValue : constsValues) {
+                    if (constsValue.equals(y.getValue())) {
+                        found = true;
+                        instructNo = constsMap.get(constsValues.indexOf(constsValue));
+                    }
+                }
+                if (!found) {
+                    instructNo = consts.addConstValue(x.getValue());
+                    consts.addInstruction(instructNo + ": const " + x.getValue());
+                    sp++;
+                }
+                // handle y var
+                // extract y from symbol table
+                int tempBbp = bbp;
+                int yInstructNo = -1;
+                do {
+                    BasicBlock tempBb = basicBlocks.get(tempBbp);
+                    for (String symbol : tempBb.getVarTable().keySet()) {
+                        if (symbol.equals(Tokenizer.Id2String(y.getValue()))) {
+                            yInstructNo = tempBb.getVarTable().get(symbol);
+                        }
+                    }
+                    tempBbp--;
+                } while (tempBbp > 1);
+                instruct = sp + ": " + op + " (" + instructNo + ") (" + yInstructNo + ")";
             }
 
-//            instruct = getString(op, y, x, instruct, ykind, consts, constsValues);
-//
-//            instruct = getString(op, x, y, instruct, xkind, consts, constsValues);
         }
 
         if (xkind == 1 && ykind == 1) {
@@ -119,40 +177,6 @@ public class SSA {
         // add var to symbol table at current bb pointer
         basicBlocks.get(bbp).addSymbol(var, src.getInstructionSp());
 
-    }
-
-    private static String getString(String op, Result x, Result y, String instruct, int xkind, ConstBasicBlock consts, ArrayList<Integer> constsValues) {
-        if (xkind == 0) {
-            // x is a constant, y is a var
-            boolean found = false;
-            int instructNo = -1123;
-            for (Integer constsValue : constsValues) {
-                if (constsValue.equals(x.getValue())) {
-                    found = true;
-                    instructNo = constsValues.indexOf(constsValue);
-                }
-            }
-            if (!found) {
-                instructNo = consts.addConstValue(x.getValue());
-                consts.addInstruction(instructNo + ": const " + x.getValue());
-                sp++;
-            }
-            // handle y var
-            // extract y from symbol table
-            int tempBbp = bbp;
-            int yInstructNo = -1;
-            do {
-                BasicBlock tempBb = basicBlocks.get(tempBbp);
-                for (String symbol : tempBb.getVarTable().keySet()) {
-                    if (symbol.equals(Tokenizer.Id2String(y.getValue()))) {
-                        yInstructNo = tempBb.getVarTable().get(symbol);
-                    }
-                }
-                tempBbp--;
-            } while (tempBbp > 1);
-            instruct = sp + ": " + op + " (" + instructNo + ") (" + yInstructNo + ")";
-        }
-        return instruct;
     }
 
     public static void shiftBbpUp() {

@@ -21,7 +21,7 @@ public class Parser {
     public static Result identifier() {
 
         // value will be the index of the identifier in the varTable
-        return new Result(1, varTable.get(tkStr));
+        return new Result(1, Tokenizer.String2Id(tkStr));
     }
 
     public static Result factor() throws Exception {
