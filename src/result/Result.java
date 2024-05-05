@@ -2,7 +2,8 @@ package result;
 
 public class Result {
     int kind; // 0 const, 1 var, 2 reg, 3 condition, 4 error
-    int value; // value if its a constant
+    int value; // value if its a constant, or var idx if variable
+    int instructionSp;
     int address; // address if its a variable
     int regno; // register number if its a register
 
@@ -47,5 +48,13 @@ public class Result {
 
     public int getRegno() {
         return regno;
+    }
+
+    public void setInstructionSp(int instructionSp) {
+        this.instructionSp = instructionSp;
+    }
+
+    public int getInstructionSp() {
+        return instructionSp;
     }
 }

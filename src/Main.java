@@ -12,9 +12,10 @@ public class Main {
         }
 
         new FileReader(fn);
+        new SSA();
 
-        if (!Tokenizer.Id2String(Tokenizer.getNext()).equals("computation")) {
-            System.out.println("Error: Program does not begin with computation.");
+        if (!Tokenizer.Id2String(Tokenizer.getNext()).equals("main")) {
+            System.out.println("Error: Program does not begin with main.");
         } else {
             try {
                 Parser.computation();
