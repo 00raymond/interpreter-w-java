@@ -11,6 +11,8 @@ public class SSA {
     private static int bbp = 1;
     private static ArrayList<BasicBlock> basicBlocks = new ArrayList<>();
 
+    private static HashMap<Integer, Integer> constsMap = new HashMap<>();
+
     public SSA() {
         ConstBasicBlock consts = new ConstBasicBlock(); // index 0 in basicBlocks array will always have consts
         basicBlocks.add(consts);
@@ -44,22 +46,33 @@ public class SSA {
                 for (Integer constsValue : constsValues) {
                     if (constsValue.equals(y.getValue())) {
                         yfound = true;
-                        yInstructNo = constsValues.indexOf(constsValue);
+                        yInstructNo = constsMap.get(constsValues.indexOf(constsValue));
+                        System.out.println("all here: " + constsMap);
+                        System.out.println(yInstructNo + " constant at " + y.getValue());
                     }
                     if (constsValue.equals(x.getValue())) {
                         xfound = true;
-                        xInstructNo = constsValues.indexOf(constsValue);
+                        xInstructNo = constsMap.get(constsValues.indexOf(constsValue));
+                        System.out.println(xInstructNo + " constant at " + x.getValue());
                     }
                 }
 
                 if (!xfound) {
-                    xInstructNo = consts.addConstValue(x.getValue());
-                    consts.addInstruction(xInstructNo + ": const " + x.getValue());
+                    int constInstructNo = consts.addConstValue(x.getValue());
+                    // maps the sp to the index of the constant in the constsValues array
+                    constsMap.put(constInstructNo, sp);
+                    // so now when value is found when searching through constValues, the instruction number is known
+
+                    consts.addInstruction(sp + ": const " + x.getValue());
+                    xInstructNo = sp;
                     sp++;
                 }
                 if (!yfound) {
-                    yInstructNo = consts.addConstValue(y.getValue());
-                    consts.addInstruction(yInstructNo + ": const " + y.getValue());
+                    int constInstructNo = consts.addConstValue(y.getValue());
+                    constsMap.put(constInstructNo, sp);
+
+                    consts.addInstruction(sp + ": const " + y.getValue());
+                    yInstructNo = sp;
                     sp++;
                 }
 

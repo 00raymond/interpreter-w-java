@@ -97,7 +97,7 @@ public class Parser {
 
         Result src = expression();
 
-        SSA.addAssignment(varName, src);
+        SSA.addAssignment(varName, src); // maps a symbol to an instruction in the current bb
 
         if (!varTable.containsKey(varName)) {
             System.out.println("Warning: variable " + varName + " not declared before use.");
