@@ -10,7 +10,19 @@ public class Register {
         System.out.println("current expression:" + x.getValue() + " " + op + " " + y.getValue());
         System.out.println("x kind: " + x.getKind() + " y kind: " + y.getKind() + "\n");
 
+        String ssaOp = switch (op) {
+            case "+" -> "add";
+            case "-" -> "sub";
+            case "*" -> "mul";
+            case "/" -> "div";
+            default -> "";
+        };
+
         Result z = new Result();
+
+        z.setInstructionSp(SSA.addInstruction(ssaOp, x, y));
+
+
         if (y.getKind() == 0 && x.getKind() == 0) {
             z.setKind(0);
             z.setValue(switch (op) {
@@ -22,16 +34,11 @@ public class Register {
             });
             System.out.println("performed z switch: " + z.getValue());
         } else {
-            z.setKind(2); // register
-            z.setRegno(AllocateReg());
-            // load (x);
+
             if (y.getKind() == 0) {
-                // put F1
-                // deallocate x
+
             } else {
-                // load (y);
-                // putF1
-                // deallocate x, deallocate y
+
             }
         }
         return z;

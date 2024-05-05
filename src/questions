@@ -1,0 +1,3 @@
+why cant have one large list of symbols and the instructions they map to?
+
+when referencing an earlier symbol, would i scan through each previous bb to find the symbol?

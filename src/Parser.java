@@ -1,4 +1,6 @@
 import java.util.HashMap;
+import java.util.Objects;
+
 import result.Result;
 
 public class Parser {
@@ -81,41 +83,79 @@ public class Parser {
         return x;
     }
 
-    public static void computation() throws Exception {
+    public static void assignment() throws Exception {
 
+        // this method adds an assignment to current symbolTable
+        // the recursive expression call will add individual
+        // constants and create an instruction for the symbol to point to if it doesnt exist already
+
+        next(); // consume identifier
+        String varName = tkStr;
+        // retrieve the value of the variable
+        next(); // "consume tkstr"
+        next(); // consume "<-"
+
+        Result src = expression();
+
+        SSA.addAssignment(varName, src);
+
+        if (!varTable.containsKey(varName)) {
+            System.out.println("Warning: variable " + varName + " not declared before use.");
+        }
+
+        varTable.put(varName, src.getValue());
         next();
-        if (Tokenizer.Id2String(currTk).equals("var")) {
-            // variable declaration
-            next(); // consume "var", next tk will be identifier name
-            String varName = Tokenizer.Id2String(currTk);
-            next();
-            // currTk will be -> guaranteed
-            next();
-            // now we will be in expression. maybe tokenize expression so we can just run the expression using existing code?
-            // or just run expression on the current token until it reaches ;, since when there is var there will have to be ; at end
-            Result x = expression();
+    }
 
-            // store result in varName
-            varTable.put(varName, x.getValue());
-
-            // if getNext isnt . , then run computation again
-            if (!tkStr.equals(".")) {
-                computation();
-            }
+    public static void varDecl() throws Exception {
+        next(); // consume "var"
+        String varName = tkStr;
+        next(); // consume identifier
+        varTable.put(varName, 0); // declared variables will initialize at -1
+        System.out.println(varName);
+        if (tkStr.equals(";")) {
+            next();
         } else {
-            // must be an expression
-            // we print these out
-            Result x = expression();
-            System.out.println(x.getValue());
+            varDecl();
+        }
+    }
 
-            if (Tokenizer.isEOF()) {
-                return;
-            }
+    public static void computation() throws Exception {
+        // first word was main
+        // now at "var"
+        next(); // consume "var", now at first variable name
+        varDecl(); // now at the next statement
+        next();
 
-            if (!tkStr.equals(".")) {
-                computation();
+        while (!tkStr.equals(".")) {
+            String statement = Tokenizer.Id2String(currTk);
+            switch (statement) {
+                case "let" -> {
+                    assignment();
+                    System.out.println("reached");
+                }
+                case "call" -> {
+
+                }  // function call
+                case "if" -> {
+                }
+                // if statement
+                case "while" -> {
+                }
+                // while loop
+                case "return" -> {
+                }
+                // return statement
+                case "}" -> {
+                    System.out.println("here");
+                    next();
+                }
+                default -> {
+
+                }
             }
         }
+        SSA.printAll();
     }
 
     public static void syntaxError() throws Exception {

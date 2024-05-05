@@ -47,8 +47,24 @@ public class Tokenizer {
             return operator();
         }
 
+        if (ch == ',') {
+            next();
+            return String2Id(",");
+        }
+
+        if (ch == '{') {
+            next();
+            return String2Id("{");
+        }
+
+        if (ch == '}') {
+            next();
+            return String2Id("}");
+        }
+
         if (ch == '.') {
             EOF = true;
+            return String2Id(".");
         }
 
         return 0;
@@ -108,10 +124,6 @@ public class Tokenizer {
 
     public static int getNumber() {
         return number;
-    }
-
-    public static int getIdentifier() {
-        return identifier;
     }
 
     public static boolean isEOF() {
