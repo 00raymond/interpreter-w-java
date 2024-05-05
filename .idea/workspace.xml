@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c10fdb6-d057-4642-a14d-dacf890f5609" name="Changes" comment="ssa basic blocks (need debugging)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SSA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SSA.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/Test.txt" afterDir="false" />
-    </list>
+    <list default="true" id="7c10fdb6-d057-4642-a14d-dacf890f5609" name="Changes" comment="variables functionality" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +81,7 @@
       <workItem from="1713228503892" duration="83000" />
       <workItem from="1713234796934" duration="7327000" />
       <workItem from="1714691988268" duration="9233000" />
-      <workItem from="1714890479545" duration="1209000" />
+      <workItem from="1714890479545" duration="1868000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -104,7 +99,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714889170191</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="variables functionality">
+      <option name="closed" value="true" />
+      <created>1714892216349</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714892216349</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +116,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial" />
     <MESSAGE value="ssa basic blocks (need debugging)" />
-    <option name="LAST_COMMIT_MESSAGE" value="ssa basic blocks (need debugging)" />
+    <MESSAGE value="variables functionality" />
+    <option name="LAST_COMMIT_MESSAGE" value="variables functionality" />
   </component>
 </project>
